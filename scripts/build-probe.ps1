@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param([string]$SdkPath = "$env:LOCALAPPDATA/Android/Sdk")
 $ErrorActionPreference='Stop'
 $root=Split-Path $PSScriptRoot -Parent
@@ -25,7 +25,7 @@ if($LASTEXITCODE -ne 0){throw 'aapt dex failed'}
 if($LASTEXITCODE -ne 0){throw 'zipalign failed'}
 $key=Join-Path $build 'debug.jks'
 if(-not (Test-Path $key)){& keytool -genkeypair -keystore $key -storepass android -keypass android -alias debug -dname 'CN=Caption Probe Debug' -keyalg RSA -validity 3650; if($LASTEXITCODE -ne 0){throw 'keytool failed'}}
-& (Join-Path $tools 'apksigner.bat') sign --ks $key --ks-pass pass:android --key-pass pass:android --out (Join-Path $build 'bravia-caption-probe.apk') (Join-Path $build 'aligned.apk')
+& (Join-Path $tools 'apksigner.bat') sign --ks $key --ks-pass pass:android --key-pass pass:android --v3-signing-enabled false --v4-signing-enabled false --out (Join-Path $build 'bravia-caption-probe.apk') (Join-Path $build 'aligned.apk')
 if($LASTEXITCODE -ne 0){throw 'APK sign failed'}
 & (Join-Path $tools 'apksigner.bat') verify (Join-Path $build 'bravia-caption-probe.apk')
 if($LASTEXITCODE -ne 0){throw 'APK verify failed'}
