@@ -1,0 +1,6 @@
+.runtime/
+.models/
+.downloads/
+samples/*.wav
+results/
+__pycache__/
